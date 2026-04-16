@@ -39,7 +39,7 @@ exports.register = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "None",
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     const mailOption = {
@@ -92,14 +92,20 @@ exports.login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    //   sameSite: "lax",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
 
+    res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,        // MUST be true in production
+  sameSite: "none",    // MUST be none for cross-origin
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
     res.status(200).json({
       status: true,
     });
