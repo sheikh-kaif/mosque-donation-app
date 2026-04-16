@@ -10,6 +10,7 @@ const donationRoutes=require("./routes/donationRoutes")
 require("./reminderJob");
 
 const app = express();
+app.set("trust proxy", 1);
 
 const port = process.env.PORT || 4000;
 connectDB();
@@ -17,7 +18,11 @@ connectDB();
 
 app.use(express.json());
 app.use(cookieparser());
-app.use(cors({ origin: "https://mosque-donation-app-six.vercel.app/", credentials: true }));
+
+app.use(cors({
+  origin: "https://mosque-donation-app-six.vercel.app",
+  credentials: true
+}));
 
 //API test routes
 app.get("/", (req, res) => {
