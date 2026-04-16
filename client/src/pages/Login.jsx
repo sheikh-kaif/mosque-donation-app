@@ -1,0 +1,163 @@
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const Login = () => {
+  const [state, setState] = useState("Sign Up");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext);
+
+  const onSubmitHandler = async (e) => {
+    try {
+      e.preventDefault();
+      axios.defaults.withCredentials = true;
+      if (state === "Sign Up") {
+        const { data } = await axios.post(backendUrl + "/api/auth/register", {
+          name,
+          email,
+          password,
+        });
+        if (data.status) {
+          setIsLoggedin(true);
+
+          getUserData();
+          navigate("/main");
+        } else {
+          toast.error(data.message);
+        }
+      } else {
+        const { data } = await axios.post(backendUrl + "/api/auth/login", {
+          email,
+          password,
+        });
+        if (data.status) {
+          setIsLoggedin(true);
+
+          getUserData();
+          navigate("/main");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      console.log(error.response?.data);
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
+  };
+  return (
+    <div
+      className="flex items-center justify-center min-h-screen px-6 sm:px-0 "
+      style={{
+        background: "linear-gradient(to bottom right, #F7FFF7, #CBFFB0)",
+      }}
+    >
+      {/* <img
+      onClick={()=>navigate('/')}
+        className="absolute left-5 sm:left-20 top-5 w-10 sm:w-12 cursor-pointer"
+        src="/favicon.png"
+        alt="favicon"
+      /> */}
+      <div
+        onClick={() => navigate("/")}
+        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+      >
+        <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
+
+        <h1 className="text-2xl sm:text-base mt-1 ml-6">
+          <span className="text-gray-800 font-bold">Faith</span>
+          <span className="text-green-600 font-extrabold">Fund</span>
+        </h1>
+      </div>
+      <div className="bg-gray-300 p-10 rounded-lg shadow-lg w-full sm:w-96 text-black text-sm">
+        <h2 className="text-3xl font-semibold text-black text-center mb-3">
+          {state === "Sign Up" ? "Create Account" : "Login"}
+        </h2>
+
+        <p className="text-center text-sm mb-6">
+          {state === "Sign Up"
+            ? "Create your account"
+            : "Login to your account"}
+        </p>
+
+        <form onSubmit={onSubmitHandler}>
+          {state === "Sign Up" && (
+            <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-gray-200">
+              <i className="ri-user-line"></i>
+              <input
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+                className="bg-transparent outline-none"
+                placeholder="Full Name"
+                required
+              />
+            </div>
+          )}
+
+          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-gray-200">
+            <i className="ri-mail-line"></i>
+            <input
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              type="email"
+              className="bg-transparent outline-none "
+              placeholder="Email Id"
+              required
+            />
+          </div>
+
+          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-gray-200">
+            <i className="ri-lock-line"></i>
+            <input
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              type="password"
+              className="bg-transparent outline-none"
+              placeholder="Password"
+              required
+            />
+          </div>
+          <p
+            className="mb-4 text-green-900 cursor-pointer"
+            onClick={() => navigate("/reset-password")}
+          >
+            Forgot Password
+          </p>
+          <button className="w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-medium cursor-pointer">
+            {state}
+          </button>
+        </form>
+
+        {state === "Sign Up" ? (
+          <p className="text-black text-center text-s mt-4">
+            Already have an account?{" "}
+            <span
+              className="text-green-900 cursor-pointer underline"
+              onClick={() => setState("Login")}
+            >
+              Login Here
+            </span>
+          </p>
+        ) : (
+          <p className="text-black text-center text-s mt-4">
+            Dont have an account?{" "}
+            <span
+              className="text-green-900 cursor-pointer underline"
+              onClick={() => setState("Sign Up")}
+            >
+              Sign Up
+            </span>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Login;
