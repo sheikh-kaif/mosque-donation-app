@@ -97,7 +97,7 @@ const VerifyEmail = () => {
                 maxLength="1"
                 key={index}
                 required
-                className="w-12 h-12 bg-gray-200 text-white text-center text-xl rounded-md"
+                className="w-12 h-12 bg-gray-200 text-black text-center text-xl rounded-md"
                 ref={(e) => (inputRefs.current[index] = e)}
                 onInput={(e) => handleInput(e, index)}
                 onKeyDown={(e) => handleKeyDown(e, index)}

@@ -58,9 +58,9 @@ const Header = () => {
   }, [userData]);
   return (
     <div className="flex h-screen w-full">
-      <div className="flex flex-col items-center w-3/5 justify-center px-4 text-center text-gray-800">
+      <div className="flex flex-col items-center mt-20 w-3/5 justify-center px-4 text-center text-gray-800">
         <h1
-          className="text-4xl font-extrabold font-san mb-6 tracking-widest text-green-700"
+          className="text-3xl font-extrabold font-san mb-6 tracking-widest text-green-700"
           style={{ minHeight: "2.5rem" }}
         >
           {displayedLetters.map((letter, index) => (
@@ -79,17 +79,18 @@ const Header = () => {
           ))}
         </h1>
 
-        <p className="max-w-md  text-2xl text-center font-bold mb-8 ">
+        <p className="max-w-md  text-xl text-center font-bold mb-8 ">
           A dedicated platform to help you donate to our mosque effortlessly and receive reminders so you never miss a chance to contribute.
           
         </p>
-        <div className="flex flex-row gap-8 mb-8 ml-5">
-          <div className="border border-gray-600  p-2 rounded-2xl  transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
+        <div className="flex flex-row gap-4 mb-4 ml-5">
+
+          <div className="border border-gray-600  p-2 rounded-2xl  transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer ">
             <div className="flex flex-row justify-center items-center">
               <img src="/mosque.png" className="w-4 sm:w-8" />
-              <h1 className="text-xl  font-medium">Mosque Maintenance</h1>
+              <h1 className="text-md  font-bold">Mosque Maintenance</h1>
             </div>
-            <p className="text-left pt-3 pl-1">
+            <p className="text-left text-sm pt-3 pl-1">
               Ensuring cleanliness, electricity, water, and regular upkeep of
               the mosque.
             </p>
@@ -98,9 +99,9 @@ const Header = () => {
           <div className="border border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
             <div className="flex flex-row justify-center items-center">
               <img src="/book.png" className="w-4 sm:w-8" />
-              <h1 className="text-xl font-medium">Religious Education</h1>
+              <h1 className="text-md  font-bold">Religious Education</h1>
             </div>
-            <p className="text-left pt-3 pl-1">
+            <p className="text-left text-sm pt-3 pl-1">
               Supporting Quran classes and learning opportunities for students.
             </p>
           </div>
@@ -108,9 +109,9 @@ const Header = () => {
           <div className="border border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
             <div className="flex flex-row justify-center items-center">
               <img src="/public-health.png" className="w-4 sm:w-8" />
-              <h1 className="text-xl font-medium">Community Support</h1>
+              <h1 className="text-md  font-bold">Community Support</h1>
             </div>
-            <p className="text-left pt-3 pl-1">
+            <p className="text-left text-sm pt-3 pl-1">
               Helping those in need and organizing community initiatives.
             </p>
           </div>
@@ -118,14 +119,14 @@ const Header = () => {
           <div className="border border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
             <div className="flex flex-row justify-center items-center">
               <img src="/future (1).png" className="w-4 sm:w-8" />
-              <h1 className="text-xl font-medium">Future Development</h1>
+              <h1 className="text-md  font-bold">Future Development</h1>
             </div>
-            <p className="text-left pt-3 pl-1">
+            <p className="text-left text-sm pt-3 pl-1">
               Improving and expanding mosque facilities for future generations.
             </p>
           </div>
         </div>
-        <p className="text-xl font-bold mb-8">
+        <p className="text-xl font-bold mb-4">
           Be a part of
           <span className="text-red-500 text-3xl font-extrabold"> الخير </span>
           Your small contribution can make a big difference.

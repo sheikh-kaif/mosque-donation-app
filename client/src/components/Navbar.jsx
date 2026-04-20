@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const location=useLocation()
+  const location = useLocation();
   const navigate = useNavigate();
   const { userData, backendUrl, isLoggedin, setIsLoggedin, setUserData } =
     useContext(AppContext);
@@ -40,46 +40,54 @@ const Navbar = () => {
       toast.error(error.message);
     }
   };
-const homeNavigation=()=>{
-  if(isLoggedin){
-    navigate("/main")
-  }else{
-    navigate("/")
-  }
-}
+  const homeNavigation = () => {
+    if (isLoggedin) {
+      navigate("/main");
+    } else {
+      navigate("/");
+    }
+  };
   return (
     <div className="w-full flex justify-between items-center p-4 sm:p-6 sm:pr-24 sm:pl-15 absolute top-0 ">
       {/* <img src="/favicon.png" alt="logo" className="w-8 sm:w-12" /> */}
       <div onClick={homeNavigation} className="cursor-pointer">
         <img src="/favicon.png" alt="logo" className="w-8 sm:w-12" />
-        <h1 className="text-2xl ">
-          <span className="text-gray-800 font-semibold">Faith</span>
+        <h1 className="text-2xl sm:text-base">
+          <span className="text-gray-800 font-bold">Faith</span>
           <span className="text-green-600 font-extrabold">Fund</span>
         </h1>
       </div>
-      <div className="flex justify-center items-center gap-6 text-lg border px-5 py-2 rounded-full">
-        <ul className="flex gap-6 justify-center items-center cursor-pointer ">
-            <li className={`relative group hover:text-green-600 transition ${
-      location.pathname === "/"  || location.pathname === "/main" ? "text-green-600" : ""
-    }`}
-          onClick={homeNavigation}>
+      <div className="flex justify-center items-center gap-4 text-lg border px-3 py-1 rounded-full">
+        <ul className="flex gap-4 justify-center items-center cursor-pointer ">
+          <li
+            className={`relative group hover:text-green-600 transition ${
+              location.pathname === "/" || location.pathname === "/main"
+                ? "text-green-600"
+                : ""
+            }`}
+            onClick={homeNavigation}
+          >
             Home
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-600 transition-all group-hover:w-full"></span>
           </li>
-          <li className={`relative group hover:text-green-600 transition ${
-      location.pathname === "/about" ? "text-green-600" : ""
-    }`} onClick={()=>navigate("/about")}>
+          <li
+            className={`relative group hover:text-green-600 transition ${
+              location.pathname === "/about" ? "text-green-600" : ""
+            }`}
+            onClick={() => navigate("/about")}
+          >
             About
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-600 transition-all group-hover:w-full"></span>
           </li>
-          <li className={`relative group hover:text-green-600 transition ${
-      location.pathname === "/contact" ? "text-green-600" : ""
-    }`}
-          onClick={()=>navigate("/contact")}>
+          <li
+            className={`relative group hover:text-green-600 transition ${
+              location.pathname === "/contact" ? "text-green-600" : ""
+            }`}
+            onClick={() => navigate("/contact")}
+          >
             Contact
             <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-green-600 transition-all group-hover:w-full"></span>
           </li>
-         
         </ul>
         {userData ? (
           <div className="w-8 h-8 flex justify-center items-center  border-2 bg-black text-white cursor-pointer p-4 rounded-full relative group hover:bg-green-200 transition-all hover:text-black ">
@@ -105,11 +113,19 @@ const homeNavigation=()=>{
             </div>
           </div>
         ) : (
+          // <button
+          //   onClick={() => navigate("/login")}
+          //   className="flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:bg-gray-100 transition-all"
+          // >
+          //   Login/Sign up <i className="ri-arrow-right-line"></i>
+
+          // </button>
           <button
             onClick={() => navigate("/login")}
-            className="flex items-center gap-2 border border-gray-500 cursor-pointer rounded-full px-6 py-2 text-gray-800 hover:bg-gray-100 transition-all"
+            className="relative group flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:text-green-600 transition-all"
           >
-            Login/Sign up <i className="ri-arrow-right-line"></i>
+            Login <i className="ri-arrow-right-line"></i>
+            <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-green-600 transition-all group-hover:w-full"></span>
           </button>
         )}
       </div>

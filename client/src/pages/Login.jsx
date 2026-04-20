@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,6 +17,9 @@ const Login = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+      if (loading) return;
+
+      setLoading(true);
       axios.defaults.withCredentials = true;
       if (state === "Sign Up") {
         const { data } = await axios.post(backendUrl + "/api/auth/register", {
@@ -48,11 +52,13 @@ const Login = () => {
     } catch (error) {
       console.log(error.response?.data);
       toast.error(error.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <div
-      className="flex items-center justify-center min-h-screen px-6 sm:px-0 "
+      className="flex items-center justify-center  min-h-screen px-6 sm:px-0 "
       style={{
         background: "linear-gradient(to bottom right, #F7FFF7, #CBFFB0)",
       }}
@@ -65,7 +71,9 @@ const Login = () => {
       /> */}
       <div
         onClick={() => navigate("/")}
-        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+        className={`absolute left-5 -ml-10 sm:left-20 top-5 flex flex-col items-center ${
+          loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+        }`}
       >
         <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
 
@@ -92,6 +100,7 @@ const Login = () => {
               <input
                 onChange={(e) => setName(e.target.value)}
                 value={name}
+                disabled={loading}
                 type="text"
                 className="bg-transparent outline-none"
                 placeholder="Full Name"
@@ -105,6 +114,7 @@ const Login = () => {
             <input
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              disabled={loading}
               type="email"
               className="bg-transparent outline-none "
               placeholder="Email Id"
@@ -117,6 +127,7 @@ const Login = () => {
             <input
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              disabled={loading}
               type="password"
               className="bg-transparent outline-none"
               placeholder="Password"
@@ -124,13 +135,16 @@ const Login = () => {
             />
           </div>
           <p
-            className="mb-4 text-green-900 cursor-pointer"
+            className={`mb-4 text-green-900 ${loading ? "opacity-50 pointer-events-none" : "cursor-pointer"} `}
             onClick={() => navigate("/reset-password")}
           >
             Forgot Password
           </p>
-          <button className="w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-medium cursor-pointer">
-            {state}
+          <button
+            className={`w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-medium  ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}`}
+            disabled={loading}
+          >
+            {loading ? "Please wait..." : state}
           </button>
         </form>
 
@@ -138,7 +152,9 @@ const Login = () => {
           <p className="text-black text-center text-s mt-4">
             Already have an account?{" "}
             <span
-              className="text-green-900 cursor-pointer underline"
+              className={`text-green-900 underline ${
+                loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+              }`}
               onClick={() => setState("Login")}
             >
               Login Here
@@ -148,7 +164,9 @@ const Login = () => {
           <p className="text-black text-center text-s mt-4">
             Dont have an account?{" "}
             <span
-              className="text-green-900 cursor-pointer underline"
+              className={`text-green-900 underline ${
+                loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+              }`}
               onClick={() => setState("Sign Up")}
             >
               Sign Up

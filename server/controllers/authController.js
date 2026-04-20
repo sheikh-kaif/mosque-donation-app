@@ -3,11 +3,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const transporter = require("../config/nodemailer");
 const Razorpay = require("razorpay");
-
+const validator=require("validator")
 //creating new user
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
-
+console.log("Password received:", password, password.length);
+console.log("Email received:", email);
   if (!name || !email || !password) {
     return res.status(400).json({
       message: "Missing Details",
@@ -21,6 +22,18 @@ exports.register = async (req, res) => {
         message: "User already exists",
       });
     }
+
+    if (!validator.isStrongPassword(password, {
+minLength: 6,
+  minLowercase: 1,
+  minUppercase: 0,
+  minNumbers: 1,
+  minSymbols: 0,
+})) {
+  return res.status(400).json({
+    message: "Password must be at least 6 characters and include a number",
+  });
+}
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
@@ -101,11 +114,11 @@ exports.login = async (req, res) => {
     // });
 
     res.cookie("token", token, {
-  httpOnly: true,
-  secure: true,        // MUST be true in production
-  sameSite: "none",    // MUST be none for cross-origin
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-});
+      httpOnly: true,
+      secure: true, 
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
     res.status(200).json({
       status: true,
     });
