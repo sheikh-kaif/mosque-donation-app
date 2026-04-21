@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const [showMenu, setShowMenu] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { userData, backendUrl, isLoggedin, setIsLoggedin, setUserData } =
@@ -90,29 +91,75 @@ const Navbar = () => {
           </li>
         </ul>
         {userData ? (
-          <div className="w-8 h-8 flex justify-center items-center  border-2 bg-black text-white cursor-pointer p-4 rounded-full relative group hover:bg-green-200 transition-all hover:text-black ">
+          <div
+            className="w-8 h-8 flex justify-center items-center  border-2 bg-black text-white cursor-pointer p-4 rounded-full relative group hover:bg-green-200 transition-all hover:text-black "
+            onMouseEnter={() => setShowMenu(true)}
+            onMouseLeave={() => setShowMenu(false)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowMenu((prev) => !prev);
+            }}
+          >
             {userData.name[0].toUpperCase()}
-            <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10 ">
-              <ul className="list-none m-0 p-2 bg-gray-50 text-sm">
-                {!userData.isAccountVerified && (
-                  <li
-                    className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
-                    onClick={sendVerificationOtp}
-                  >
-                    Verify email
-                  </li>
-                )}
 
-                <li
-                  className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded pr-10"
-                  onClick={logout}
-                >
-                  Logout
-                </li>
-              </ul>
-            </div>
+            {showMenu && (
+              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10 ">
+                <ul className="list-none m-0 p-2 bg-gray-50 text-sm">
+                  {!userData.isAccountVerified && (
+                    <li
+                      className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
+                      onClick={sendVerificationOtp}
+                    >
+                      Verify email
+                    </li>
+                  )}
+
+                  <li
+                    className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded pr-10"
+                    onClick={logout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              </div>
+            )}
           </div>
         ) : (
+          // <div
+          //   className="w-8 h-8 flex justify-center items-center border-2 bg-black text-white cursor-pointer p-4 rounded-full relative"
+          //   // Desktop hover
+          //   onMouseEnter={() => setShowMenu(true)}
+          //   onMouseLeave={() => setShowMenu(false)}
+          //   // Mobile click
+          //   onClick={(e) => {
+          //     e.stopPropagation();
+          //     setShowMenu((prev) => !prev);
+          //   }}
+          // >
+          //   {userData.name[0].toUpperCase()}
+
+          //   {showMenu && (
+          //     <div className="absolute top-10 right-0 z-10 text-black rounded">
+          //       <ul className="list-none m-0 p-2 bg-gray-50 text-sm shadow-md">
+          //         {!userData.isAccountVerified && (
+          //           <li
+          //             className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
+          //             onClick={sendVerificationOtp}
+          //           >
+          //             Verify email
+          //           </li>
+          //         )}
+
+          //         <li
+          //           className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
+          //           onClick={logout}
+          //         >
+          //           Logout
+          //         </li>
+          //       </ul>
+          //     </div>
+          //   )}
+          // </div>
           // <button
           //   onClick={() => navigate("/login")}
           //   className="flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:bg-gray-100 transition-all"

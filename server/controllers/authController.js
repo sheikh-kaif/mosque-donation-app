@@ -3,12 +3,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const transporter = require("../config/nodemailer");
 const Razorpay = require("razorpay");
-const validator=require("validator")
+const validator = require("validator");
 //creating new user
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
-console.log("Password received:", password, password.length);
-console.log("Email received:", email);
+  console.log("Password received:", password, password.length);
+  console.log("Email received:", email);
   if (!name || !email || !password) {
     return res.status(400).json({
       message: "Missing Details",
@@ -23,17 +23,19 @@ console.log("Email received:", email);
       });
     }
 
-    if (!validator.isStrongPassword(password, {
-minLength: 6,
-  minLowercase: 1,
-  minUppercase: 0,
-  minNumbers: 1,
-  minSymbols: 0,
-})) {
-  return res.status(400).json({
-    message: "Password must be at least 6 characters and include a number",
-  });
-}
+    if (
+      !validator.isStrongPassword(password, {
+        minLength: 6,
+        minLowercase: 1,
+        minUppercase: 0,
+        minNumbers: 1,
+        minSymbols: 0,
+      })
+    ) {
+      return res.status(400).json({
+        message: "Password must be at least 6 characters and include a number",
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
@@ -115,7 +117,7 @@ exports.login = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true, 
+      secure: true,
       sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
@@ -135,8 +137,10 @@ exports.logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      secure: true,
+      sameSite: "none",
     });
     res.status(200).json({
       success: true,
