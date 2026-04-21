@@ -103,7 +103,7 @@ const Navbar = () => {
             {userData.name[0].toUpperCase()}
 
             {showMenu && (
-              <div className="absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-10 ">
+              <div className="absolute  top-0 right-0 z-10 text-black rounded pt-10 ">
                 <ul className="list-none m-0 p-2 bg-gray-50 text-sm">
                   {!userData.isAccountVerified && (
                     <li
