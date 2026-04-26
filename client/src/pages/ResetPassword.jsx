@@ -5,6 +5,7 @@ import { AppContext } from "../context/AppContext";
 import { toast } from "react-toastify";
 
 const ResetPassword = () => {
+    const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const { backendUrl } = useContext(AppContext);
@@ -12,6 +13,9 @@ const ResetPassword = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+      if (loading) return;
+
+      setLoading(true);
       const data = await axios.post(backendUrl + "/api/auth/send-reset-otp", {
         email,
       });
@@ -22,6 +26,8 @@ const ResetPassword = () => {
       console.log(email);
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,9 +44,11 @@ const ResetPassword = () => {
       /> */}
       <div
         onClick={() => navigate("/")}
-        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+        className={`absolute -ml-10 left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer ${
+          loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+        }`}
       >
-        <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
+        <img className="w-10  sm:w-12" src="/favicon.png" alt="favicon" />
 
         <h1 className="text-2xl sm:text-base mt-1 ml-6">
           <span className="text-gray-800 font-bold">Faith</span>
@@ -57,14 +65,16 @@ const ResetPassword = () => {
           <input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            disabled={loading}
             type="email"
             className="bg-transparent outline-none text-black"
             placeholder="Email Id"
             required
           />
         </div>
-        <button className="w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-bold text-lg cursor-pointer">
-          Send OTP
+        <button className={`w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-bold text-lg cursor-pointer ${loading ? "cursor-not-allowed  opacity-70" : "cursor-pointer"}`}
+        disabled={loading}>
+          {loading ? "Please wait..." : "Send OTP"}
         </button>
       </form>
     </div>

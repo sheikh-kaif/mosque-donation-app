@@ -49,17 +49,17 @@ const Navbar = () => {
     }
   };
   return (
-    <div className="w-full flex justify-between items-center p-4 sm:p-6 sm:pr-24 sm:pl-15 absolute top-0 ">
+    <div className="w-full  flex justify-between items-center p-2 sm:p-6 sm:pr-16 sm:-mt-1 sm:pl-10 absolute top-0 ">
       {/* <img src="/favicon.png" alt="logo" className="w-8 sm:w-12" /> */}
       <div onClick={homeNavigation} className="cursor-pointer">
-        <img src="/favicon.png" alt="logo" className="w-8 sm:w-12" />
-        <h1 className="text-2xl sm:text-base">
-          <span className="text-gray-800 font-bold">Faith</span>
-          <span className="text-green-600 font-extrabold">Fund</span>
+        <img src="/favicon.png" alt="logo" className="w-6 sm:w-12" />
+        <h1 className="text-sm sm:text-2xl ">
+          <span className="text-gray-800 font-medium sm:font-bold">Faith</span>
+          <span className="text-green-600 font-bold sm:font-extrabold">Fund</span>
         </h1>
       </div>
-      <div className="flex justify-center items-center gap-4 text-lg border px-3 py-1 rounded-full">
-        <ul className="flex gap-4 justify-center items-center cursor-pointer ">
+      <div className="flex justify-center items-center  gap-1.5 sm:gap-4 text-lg border px-2   sm:px-4 sm:py-1 rounded-full">
+        <ul className="flex gap-1.5 sm:gap-4 justify-center items-center cursor-pointer text-sm sm:text-lg ">
           <li
             className={`relative group hover:text-green-600 transition ${
               location.pathname === "/" || location.pathname === "/main"
@@ -125,51 +125,9 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          // <div
-          //   className="w-8 h-8 flex justify-center items-center border-2 bg-black text-white cursor-pointer p-4 rounded-full relative"
-          //   // Desktop hover
-          //   onMouseEnter={() => setShowMenu(true)}
-          //   onMouseLeave={() => setShowMenu(false)}
-          //   // Mobile click
-          //   onClick={(e) => {
-          //     e.stopPropagation();
-          //     setShowMenu((prev) => !prev);
-          //   }}
-          // >
-          //   {userData.name[0].toUpperCase()}
-
-          //   {showMenu && (
-          //     <div className="absolute top-10 right-0 z-10 text-black rounded">
-          //       <ul className="list-none m-0 p-2 bg-gray-50 text-sm shadow-md">
-          //         {!userData.isAccountVerified && (
-          //           <li
-          //             className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
-          //             onClick={sendVerificationOtp}
-          //           >
-          //             Verify email
-          //           </li>
-          //         )}
-
-          //         <li
-          //           className="py-1 px-2 hover:bg-gray-200 cursor-pointer rounded"
-          //           onClick={logout}
-          //         >
-          //           Logout
-          //         </li>
-          //       </ul>
-          //     </div>
-          //   )}
-          // </div>
-          // <button
-          //   onClick={() => navigate("/login")}
-          //   className="flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:bg-gray-100 transition-all"
-          // >
-          //   Login/Sign up <i className="ri-arrow-right-line"></i>
-
-          // </button>
           <button
             onClick={() => navigate("/login")}
-            className="relative group flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:text-green-600 transition-all"
+            className="relative group flex items-center gap-2 border-gray-500 cursor-pointer rounded-full pxr-3 py-1 text-gray-800 hover:text-green-600 transition-all text-sm sm:text-lg "
           >
             Login <i className="ri-arrow-right-line"></i>
             <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-green-600 transition-all group-hover:w-full"></span>
@@ -181,3 +139,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+

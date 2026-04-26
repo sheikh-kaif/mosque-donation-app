@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const VerifyEmail = () => {
-  //for navigation
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   axios.defaults.withCredentials = true;
-
 
   const { backendUrl, isLoggedIn, userData, getUserData } =
     useContext(AppContext);
@@ -39,6 +38,8 @@ const VerifyEmail = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+      if (loading) return;
+      setLoading(true);
       const otpArray = inputRefs.current.map((e) => e.value);
       const otp = otpArray.join("");
       const { data } = await axios.post(
@@ -54,22 +55,27 @@ const VerifyEmail = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     isLoggedIn && userData && userData.isAccountVerified && navigate("/");
   }, [isLoggedIn, userData]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen  "
-     style={{
+    <div
+      className="flex items-center justify-center min-h-screen  "
+      style={{
         background: "linear-gradient(to bottom right, #F7FFF7, #CBFFB0)",
-      }}>
-      
-         <div
+      }}
+    >
+      <div
         onClick={() => navigate("/")}
-        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+        className={`absolute left-5 -ml-10 sm:left-20 top-5 flex flex-col items-center cursor-pointer ${
+          loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+        }`}
       >
         <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
 
@@ -96,6 +102,7 @@ const VerifyEmail = () => {
                 type="text"
                 maxLength="1"
                 key={index}
+                disabled={loading}
                 required
                 className="w-12 h-12 bg-gray-200 text-black text-center text-xl rounded-md"
                 ref={(e) => (inputRefs.current[index] = e)}
@@ -104,8 +111,11 @@ const VerifyEmail = () => {
               />
             ))}
         </div>
-        <button className="w-full py-3 bg-linear-to-r from-green-400 to-green-700 text-white rounded-full">
-          Verify email
+        <button
+          className={`w-full py-3 bg-linear-to-r from-green-400 to-green-700 text-white rounded-full ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}`}
+          disabled={loading}
+        >
+          {/* Verify email */}{loading ? "Please wait..." : "Verify email"}
         </button>
       </form>
     </div>

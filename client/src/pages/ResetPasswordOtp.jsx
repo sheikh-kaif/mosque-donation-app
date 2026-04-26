@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const ResetPasswordOtp = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +41,9 @@ const ResetPasswordOtp = () => {
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
+       if (loading) return;
+
+      setLoading(true);
       const otpArray = inputRefs.current.map((e) => e.value);
       const otp = otpArray.join("");
       if (otp.length < 6) {
@@ -65,6 +69,8 @@ const ResetPasswordOtp = () => {
       } else {
         toast.error("Server not reachable");
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -77,7 +83,9 @@ const ResetPasswordOtp = () => {
       
       <div
         onClick={() => navigate("/")}
-        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+        className={`absolute left-5 -ml-10 sm:left-20 top-5 flex flex-col items-center cursor-pointer ${
+          loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+        }`}
       >
         <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
 
@@ -96,6 +104,7 @@ const ResetPasswordOtp = () => {
           <input
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            disabled={loading}
             type="email"
             className="bg-transparent outline-none text-black "
             placeholder="Email Id"
@@ -113,6 +122,7 @@ const ResetPasswordOtp = () => {
                 type="text"
                 maxLength="1"
                 key={index}
+                disabled={loading}
                 required
                 className="w-12 h-12 bg-gray-200 text-black text-center text-xl rounded-md"
                 ref={(e) => (inputRefs.current[index] = e)}
@@ -130,14 +140,15 @@ const ResetPasswordOtp = () => {
           <input
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            disabled={loading}
             type="password"
             className="bg-transparent outline-none  "
             placeholder="New Password"
             required
           />
         </div>
-        <button className="w-full py-3 bg-linear-to-r from-green-300 to-green-700 text-black rounded-full">
-          Change Password
+        <button className={`w-full py-3 bg-linear-to-r from-green-300 to-green-700 text-black rounded-full  ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}`} disabled={loading} >
+            {loading ? "Please wait..." : "Change Password"}
         </button>
       </form>
     </div>

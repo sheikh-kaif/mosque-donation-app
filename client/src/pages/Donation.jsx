@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
 const Donation = () => {
+    const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [money, setMoney] = useState();
   const { backendUrl, isLoggedIn } = useContext(AppContext);
@@ -16,6 +17,9 @@ const Donation = () => {
       //   navigate("/");
       //   return;
       // }
+       if (loading) return;
+
+      setLoading(true);
       const { data } = await axios.post(backendUrl + "/api/auth/donate", {
         amount: Number(money),
       });
@@ -35,6 +39,8 @@ const Donation = () => {
       rzp.open();
     } catch (error) {
       console.error("Payment error:", error.response?.data || error.message);
+    }finally {
+      setLoading(false);
     }
   };
   return (
@@ -45,7 +51,9 @@ const Donation = () => {
      
       <div
         onClick={() => navigate("/")}
-        className="absolute left-5 sm:left-20 top-5 flex flex-col items-center cursor-pointer"
+        className={`absolute left-5 -ml-10 sm:left-20 top-5 flex flex-col items-center cursor-pointer ${
+          loading ? "opacity-50 pointer-events-none" : "cursor-pointer"
+        }`}
       >
         <img className="w-10 sm:w-12" src="/favicon.png" alt="favicon" />
 
@@ -59,13 +67,14 @@ const Donation = () => {
         <form onSubmit={handlePayment} className="flex flex-col ">
           <input
             type="number"
+            disabled={loading}
             required
             autoFocus
             className="bg-gray-200 rounded-2xl p-2 text-black mb-8"
             onChange={(e) => setMoney(e.target.value)}
           />
-          <button className="w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-medium cursor-pointer">
-            Donate Now
+          <button className={`w-full py-2.5 rounded-full bg-linear-to-r from-green-300 to-green-700 text-white font-medium cursor-pointer  ${loading ? "cursor-not-allowed opacity-70" : "cursor-pointer"}`} disabled={loading}>
+           {loading ? "Please wait..." : "Donate Now"}
           </button>
           <p className="mt-4 text-lg text-center text-green-800 font-medium">
   "And whatever you give in charity,<span className="font-bold ml-1 mr-1 text-red-600">Allah</span> knows it well"

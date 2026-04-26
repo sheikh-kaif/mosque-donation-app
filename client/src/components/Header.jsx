@@ -57,10 +57,10 @@ const Header = () => {
     };
   }, [userData]);
   return (
-    <div className="flex h-screen w-full">
-      <div className="flex flex-col items-center mt-20 w-3/5 justify-center px-4 text-center text-gray-800">
+    <div className="flex min-h-screen w-full ">
+      <div className="flex flex-col items-center   sm:w-3/5 justify-center px-4 text-center text-gray-800 ">
         <h1
-          className="text-3xl font-extrabold font-san mb-6 tracking-widest text-green-700"
+          className="text-xl font-bold mt-15 sm:mt-20 sm:text-3xl sm:font-extrabold font-san mb-1 sm:mb-6 tracking-widest text-green-700"
           style={{ minHeight: "2.5rem" }}
         >
           {displayedLetters.map((letter, index) => (
@@ -79,16 +79,16 @@ const Header = () => {
           ))}
         </h1>
 
-        <p className="max-w-md  text-xl text-center font-bold mb-8 ">
+        <p className="max-w-md  sm:mt-0  text-sm sm:text-xl text-center font-bold mb-4 sm:mb-8 ">
           A dedicated platform to help you donate to our mosque effortlessly and receive reminders so you never miss a chance to contribute.
           
         </p>
-        <div className="flex flex-row gap-4 mb-4 ml-5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4 ml-5">
 
           <div className="border border-gray-600  p-2 rounded-2xl  transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer ">
             <div className="flex flex-row justify-center items-center">
               <img src="/mosque.png" className="w-4 sm:w-8" />
-              <h1 className="text-md  font-bold">Mosque Maintenance</h1>
+              <h1 className="text-sm sm:text-md  font-bold">Mosque Maintenance</h1>
             </div>
             <p className="text-left text-sm pt-3 pl-1">
               Ensuring cleanliness, electricity, water, and regular upkeep of
@@ -106,7 +106,7 @@ const Header = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
+          <div className="border  border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
             <div className="flex flex-row justify-center items-center">
               <img src="/public-health.png" className="w-4 sm:w-8" />
               <h1 className="text-md  font-bold">Community Support</h1>
@@ -116,7 +116,7 @@ const Header = () => {
             </p>
           </div>
 
-          <div className="border border-gray-600  p-2 rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
+          <div className="border border-gray-600  p-2  rounded-2xl transition-transform duration-300 hover:scale-105 hover:bg-green-200 hover:-translate-y-1 hover:shadow-2xl cursor-pointer">
             <div className="flex flex-row justify-center items-center">
               <img src="/future (1).png" className="w-4 sm:w-8" />
               <h1 className="text-md  font-bold">Future Development</h1>
@@ -126,9 +126,10 @@ const Header = () => {
             </p>
           </div>
         </div>
-        <p className="text-xl font-bold mb-4">
+
+        <p className=" text-md sm:text-xl font-bold mb-4">
           Be a part of
-          <span className="text-red-500 text-3xl font-extrabold"> الخير </span>
+          <span className="text-red-500 text-xl sm:text-3xl font-extrabold"> الخير </span>
           Your small contribution can make a big difference.
         </p>
         {/* {isLoggedin ? (
@@ -137,7 +138,7 @@ const Header = () => {
           </button>
         ) : ( */}
           <button
-            className="border border-gray-600 rounded-full px-8 py-2.5 hover:bg-gray-100 transition-all cursor-pointer"
+            className="border border-gray-600 rounded-full px-2 py-1 text-sm sm:text-md sm:px-8 sm:py-2.5 hover:bg-gray-100 transition-all cursor-pointer"
             onClick={() => navigate("/login")}
           >
             Login/Sign up to donate
@@ -145,12 +146,13 @@ const Header = () => {
         {/* )} */}
       </div>
 
+
       <div
-        className="w-2/5 relative h-[80vh] mt-25 mr-10 "
-        style={{ backgroundColor: "bg-pink-50" }}
+        className="  sm:w-2/5 relative h-[80vh] mt-25 mr-10  "
+       
       >
         <div
-          className="absolute inset-0"
+          className=" absolute inset-0"
           style={{
             backgroundImage: `url(${masjid})`,
 
@@ -169,3 +171,5 @@ const Header = () => {
 };
 
 export default Header;
+
+   

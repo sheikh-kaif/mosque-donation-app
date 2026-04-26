@@ -5,6 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -56,6 +57,15 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  const handleTogglePassword = () => {
+  setShowPassword(true);
+
+  // auto hide after 1 second
+  setTimeout(() => {
+    setShowPassword(false);
+  }, 1000);
+};
   return (
     <div
       className="flex items-center justify-center  min-h-screen px-6 sm:px-0 "
@@ -63,12 +73,6 @@ const Login = () => {
         background: "linear-gradient(to bottom right, #F7FFF7, #CBFFB0)",
       }}
     >
-      {/* <img
-      onClick={()=>navigate('/')}
-        className="absolute left-5 sm:left-20 top-5 w-10 sm:w-12 cursor-pointer"
-        src="/favicon.png"
-        alt="favicon"
-      /> */}
       <div
         onClick={() => navigate("/")}
         className={`absolute left-5 -ml-10 sm:left-20 top-5 flex flex-col items-center ${
@@ -122,17 +126,29 @@ const Login = () => {
             />
           </div>
 
-          <div className="mb-4 flex items-center gap-3 w-full px-5 py-2.5 rounded-full bg-gray-200">
+          <div className="mb-4 flex items-center gap-4 w-full px-5 py-2.5 rounded-full bg-gray-200">
             <i className="ri-lock-line"></i>
             <input
               onChange={(e) => setPassword(e.target.value)}
               value={password}
               disabled={loading}
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="bg-transparent outline-none"
               placeholder="Password"
               required
             />
+            <div className="relative group">
+              <i
+                className={`cursor-pointer ${
+                  showPassword ? "ri-eye-off-line" : "ri-eye-line"
+                }`}
+                onClick={handleTogglePassword}
+              ></i>
+
+              <span className="absolute bottom-[-30px] left-1/2 -translate-x-1/2 scale-0 group-hover:scale-100 transition-all bg-gray-200 text-black text-xs px-2 py-1 rounded whitespace-nowrap">
+                {showPassword ? "Hide password" : "Show password"}
+              </span>
+            </div>
           </div>
           <p
             className={`mb-4 text-green-900 ${loading ? "opacity-50 pointer-events-none" : "cursor-pointer"} `}
